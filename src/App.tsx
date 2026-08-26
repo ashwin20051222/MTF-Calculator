@@ -113,9 +113,7 @@ function App() {
   };
 
   const handleNewCalculation = () => {
-    if (hasInput) {
-      handleSaveToHistory();
-    }
+    // Only reset parameters - never auto-save to history
     setParams({
       buyPrice: 0,
       sellPrice: 0,
@@ -307,21 +305,25 @@ function App() {
                 {activeTab === 'Settings' && 'Adjust default broker interest rates, effective dates, and display options.'}
               </p>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2.5">
               <DownloadAppButton variant="nav" />
               {activeTab === 'Calculator' && (
                 <button
-                  onClick={() => handleSaveToHistory()}
+                  onClick={() => {
+                    if (hasInput) {
+                      handleSaveToHistory();
+                    }
+                  }}
                   disabled={!hasInput}
-                  title={hasInput ? "Save Calculation to History" : "Enter Buy Price, Sell Price & Quantity to save"}
-                  className={`flex items-center gap-1.5 text-xs font-bold px-3.5 py-1.5 rounded-lg transition-all ${
+                  title={hasInput ? "Save Calculation to History" : "Enter trade values (Quantity, Buy Price, Sell Price) to save"}
+                  className={`flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-full transition-all border shadow-xs ${
                     hasInput
-                      ? 'bg-primary/10 dark:bg-[#d4cb00]/15 text-primary dark:text-[#d4cb00] hover:bg-primary/20 cursor-pointer shadow-xs active:scale-95'
-                      : 'bg-surface-container-highest/70 dark:bg-[#2a2a2a] text-[#888] dark:text-[#666] opacity-60 cursor-not-allowed'
+                      ? 'bg-[#6b6d13]/10 dark:bg-[#d4cb00]/15 text-[#6b6d13] dark:text-[#d4cb00] border-[#6b6d13]/30 dark:border-[#d4cb00]/30 hover:bg-[#6b6d13]/20 cursor-pointer active:scale-95'
+                      : 'bg-surface-container-highest/60 dark:bg-[#252525] text-[#888] dark:text-[#666] border-outline-variant dark:border-[#3a3a3a] opacity-60 cursor-not-allowed'
                   }`}
                 >
                   <span className="material-symbols-outlined text-sm">{savedToast ? 'bookmark_added' : 'bookmark'}</span>
-                  <span>{savedToast ? 'Saved to History!' : 'Save Calculation'}</span>
+                  <span>{savedToast ? 'Saved!' : 'Save Calculation'}</span>
                 </button>
               )}
               {showRatesDate && (
