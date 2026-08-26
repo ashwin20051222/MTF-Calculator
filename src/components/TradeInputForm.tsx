@@ -4,10 +4,13 @@ import type { TradeParams } from '../engine/calculator';
 interface TradeInputFormProps {
   params: TradeParams;
   onChange: (params: TradeParams) => void;
+  onSave?: (symbol: string) => void;
+  savedToast?: boolean;
 }
 
-export const TradeInputForm: React.FC<TradeInputFormProps> = ({ params, onChange }) => {
+export const TradeInputForm: React.FC<TradeInputFormProps> = ({ params, onChange, onSave, savedToast }) => {
   const [localParams, setLocalParams] = useState<TradeParams>(params);
+  const [stockSymbol, setStockSymbol] = useState<string>('TRADE');
 
   useEffect(() => {
     setLocalParams(params);
@@ -31,6 +34,7 @@ export const TradeInputForm: React.FC<TradeInputFormProps> = ({ params, onChange
 
   const totalValue = localParams.buyPrice * localParams.quantity;
   const marginPercent = totalValue > 0 ? ((localParams.ownCapital / totalValue) * 100).toFixed(0) : '0';
+  const hasValidInput = localParams.buyPrice > 0 && localParams.sellPrice > 0 && localParams.quantity > 0;
 
   const formatINR = (n: number) => n > 0 ? n.toLocaleString('en-IN', { maximumFractionDigits: 2 }) : '0';
 
@@ -48,6 +52,8 @@ export const TradeInputForm: React.FC<TradeInputFormProps> = ({ params, onChange
             <input 
               className="input-dark text-base font-medium uppercase" 
               type="text" 
+              value={stockSymbol === 'TRADE' ? '' : stockSymbol}
+              onChange={(e) => setStockSymbol(e.target.value.toUpperCase() || 'TRADE')}
               placeholder="e.g. RELIANCE" 
             />
           </div>
@@ -141,6 +147,21 @@ export const TradeInputForm: React.FC<TradeInputFormProps> = ({ params, onChange
             </div>
           </div>
         </div>
+
+        {/* Save to History Button */}
+        <button
+          type="button"
+          onClick={() => onSave && onSave(stockSymbol)}
+          disabled={!hasValidInput}
+          className={`w-full py-2.5 px-4 rounded-lg font-bold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm ${
+            hasValidInput
+              ? 'bg-[#6b6d13] dark:bg-[#d4cb00] text-on-primary dark:text-[#1a1a00] hover:opacity-90 active:scale-[0.99]'
+              : 'bg-surface-container-highest dark:bg-[#2e2e2e] text-[#888] dark:text-[#666] opacity-60 cursor-not-allowed'
+          }`}
+        >
+          <span className="material-symbols-outlined text-sm">bookmark</span>
+          {savedToast ? 'Calculation Saved to History ✓' : 'Save Calculation to History'}
+        </button>
       </form>
     </div>
   );

@@ -97,6 +97,8 @@ function App() {
   const zerodhaWinner = hasInput && zerodhaCharges.netPnL > growwCharges.netPnL;
   const growwWinner = hasInput && growwCharges.netPnL > zerodhaCharges.netPnL;
 
+  const [savedToast, setSavedToast] = useState(false);
+
   const handleSaveToHistory = (stockSymbol = 'TRADE') => {
     if (!hasInput) return;
     const newEntry: HistoryEntry = {
@@ -106,6 +108,8 @@ function App() {
       stockSymbol: stockSymbol || 'TRADE',
     };
     setHistory(prev => [newEntry, ...prev]);
+    setSavedToast(true);
+    setTimeout(() => setSavedToast(false), 2500);
   };
 
   const handleNewCalculation = () => {
@@ -191,17 +195,31 @@ function App() {
           <Logo className="w-7 h-7 rounded-md shadow-sm shrink-0" size={28} />
           <span className="text-lg font-bold text-on-surface dark:text-[#e0e0e0] tracking-wide">MTF Pro</span>
         </div>
-        <div className="flex gap-2.5 items-center">
+        <div className="flex gap-2 items-center">
+          {activeTab === 'Calculator' && (
+            <button 
+              onClick={() => handleSaveToHistory()}
+              disabled={!hasInput}
+              className={`p-1.5 rounded-lg flex items-center justify-center transition-colors ${
+                hasInput 
+                  ? 'text-primary dark:text-[#d4cb00] bg-primary/10 dark:bg-[#d4cb00]/15 cursor-pointer' 
+                  : 'text-[#888] opacity-40 cursor-not-allowed'
+              }`}
+              title={hasInput ? "Save Calculation to History" : "Enter trade values to save"}
+            >
+              <span className="material-symbols-outlined text-base">{savedToast ? 'bookmark_added' : 'bookmark'}</span>
+            </button>
+          )}
           <DownloadAppButton variant="nav" />
           <button 
             onClick={() => setDarkMode(!darkMode)}
-            className="material-symbols-outlined text-primary dark:text-[#d4cb00] cursor-pointer transition-colors duration-200"
+            className="material-symbols-outlined text-primary dark:text-[#d4cb00] cursor-pointer transition-colors duration-200 text-base p-1"
           >
             {darkMode ? 'light_mode' : 'dark_mode'}
           </button>
           <span 
             onClick={() => setSupportOpen(true)}
-            className="material-symbols-outlined text-primary dark:text-[#d4cb00] cursor-pointer"
+            className="material-symbols-outlined text-primary dark:text-[#d4cb00] cursor-pointer text-base p-1"
           >
             account_circle
           </span>
@@ -290,12 +308,19 @@ function App() {
               </p>
             </div>
             <div className="flex items-center gap-3">
-              {hasInput && activeTab === 'Calculator' && (
+              {activeTab === 'Calculator' && (
                 <button
                   onClick={() => handleSaveToHistory()}
-                  className="flex items-center gap-1 text-xs font-bold bg-primary/10 dark:bg-[#d4cb00]/10 text-primary dark:text-[#d4cb00] hover:bg-primary/20 px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
+                  disabled={!hasInput}
+                  title={hasInput ? "Save Calculation to History" : "Enter Buy Price, Sell Price & Quantity to save"}
+                  className={`flex items-center gap-1.5 text-xs font-bold px-3.5 py-1.5 rounded-lg transition-all ${
+                    hasInput
+                      ? 'bg-primary/10 dark:bg-[#d4cb00]/15 text-primary dark:text-[#d4cb00] hover:bg-primary/20 cursor-pointer shadow-xs active:scale-95'
+                      : 'bg-surface-container-highest/70 dark:bg-[#2a2a2a] text-[#888] dark:text-[#666] opacity-60 cursor-not-allowed'
+                  }`}
                 >
-                  <span className="material-symbols-outlined text-sm">bookmark</span> Save Calculation
+                  <span className="material-symbols-outlined text-sm">{savedToast ? 'bookmark_added' : 'bookmark'}</span>
+                  <span>{savedToast ? 'Saved to History!' : 'Save Calculation'}</span>
                 </button>
               )}
               {showRatesDate && (
@@ -314,7 +339,7 @@ function App() {
           {activeTab === 'Calculator' && (
             <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-gutter flex-1 auto-rows-min pb-24 lg:pb-4">
               {/* Left Column: Trade Parameters (Spans 4 cols on lg) */}
-              <TradeInputForm params={params} onChange={setParams} />
+              <TradeInputForm params={params} onChange={setParams} onSave={handleSaveToHistory} savedToast={savedToast} />
 
               {/* Center & Right: Dashboard Main Area (Spans 8 cols on lg) */}
               <div className="col-span-4 md:col-span-8 lg:col-span-8 flex flex-col gap-gutter">
@@ -461,6 +486,14 @@ function App() {
               Got it
             </button>
           </div>
+        </div>
+      )}
+
+      {/* Save Notification Toast */}
+      {savedToast && (
+        <div className="fixed bottom-20 lg:bottom-8 right-6 z-50 bg-[#6b6d13] dark:bg-[#d4cb00] text-on-primary dark:text-[#1a1a00] font-bold text-xs px-4 py-2.5 rounded-xl shadow-2xl flex items-center gap-2 animate-bounce">
+          <span className="material-symbols-outlined text-base">bookmark_added</span>
+          <span>Calculation saved to History!</span>
         </div>
       )}
 
