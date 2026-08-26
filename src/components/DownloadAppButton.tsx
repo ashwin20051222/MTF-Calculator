@@ -18,12 +18,15 @@ export const DownloadAppButton: React.FC<DownloadAppProps> = ({ variant = 'nav',
   const [isInstalled, setIsInstalled] = useState(false);
 
   useEffect(() => {
-    // Check if already in standalone mode
-    if (
-      window.matchMedia('(display-mode: standalone)').matches ||
-      (window.navigator as unknown as { standalone?: boolean }).standalone === true
-    ) {
-      setIsInstalled(true);
+    try {
+      if (
+        (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
+        (window.navigator as unknown as { standalone?: boolean })?.standalone === true
+      ) {
+        setIsInstalled(true);
+      }
+    } catch {
+      // ignore
     }
 
     const handleBeforeInstallPrompt = (e: Event) => {

@@ -18,6 +18,39 @@ export const ComparisonPage: React.FC<ComparisonPageProps> = ({
 }) => {
   const f = (n: number) => `₹${n.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
+  const comparisonRows = hasInput ? [
+    {
+      label: 'Net Profit / Loss',
+      z: { value: f(zerodhaCharges.netPnL), positive: zerodhaCharges.netPnL >= 0 },
+      g: { value: f(growwCharges.netPnL), positive: growwCharges.netPnL >= 0 },
+      diff: `${f(Math.abs(zerodhaCharges.netPnL - growwCharges.netPnL))} (${zerodhaCharges.netPnL > growwCharges.netPnL ? 'Zerodha +' : 'Groww +'})`,
+    },
+    {
+      label: 'Total Charges',
+      z: { value: f(zerodhaCharges.totalCharges), positive: false },
+      g: { value: f(growwCharges.totalCharges), positive: false },
+      diff: `${f(Math.abs(zerodhaCharges.totalCharges - growwCharges.totalCharges))} cheaper (${zerodhaCharges.totalCharges < growwCharges.totalCharges ? 'Zerodha' : 'Groww'})`,
+    },
+    {
+      label: `MTF Interest (${params.holdingDays}d)`,
+      z: { value: f(zerodhaCharges.mtfInterest), positive: false },
+      g: { value: f(growwCharges.mtfInterest), positive: false },
+      diff: f(Math.abs(zerodhaCharges.mtfInterest - growwCharges.mtfInterest)),
+    },
+    {
+      label: 'DP + Pledge Charges',
+      z: { value: f(zerodhaCharges.dpCharges + zerodhaCharges.pledgeCharges), positive: true },
+      g: { value: f(growwCharges.dpCharges + growwCharges.pledgeCharges), positive: true },
+      diff: f(Math.abs((zerodhaCharges.dpCharges + zerodhaCharges.pledgeCharges) - (growwCharges.dpCharges + growwCharges.pledgeCharges))),
+    },
+    {
+      label: 'Break-Even Sell Price',
+      z: { value: `₹${zerodhaCharges.breakEvenSellPrice.toFixed(2)}`, positive: true },
+      g: { value: `₹${growwCharges.breakEvenSellPrice.toFixed(2)}`, positive: true },
+      diff: `₹${Math.abs(zerodhaCharges.breakEvenSellPrice - growwCharges.breakEvenSellPrice).toFixed(2)}`,
+    },
+  ] : [];
+
   return (
     <div className="flex flex-col gap-gutter">
       {/* Overview Cards */}
@@ -28,23 +61,23 @@ export const ComparisonPage: React.FC<ComparisonPageProps> = ({
           <div className="flex flex-col gap-3">
             <div className="flex justify-between items-center py-2 border-b border-outline-variant/30 dark:border-[#333]">
               <span className="text-xs text-[#5f6368] dark:text-[#9e9e9e]">Interest Rate</span>
-              <span className="text-sm font-bold text-on-surface dark:text-[#e0e0e0]">~0.0493% / day (~18% p.a.)</span>
+              <span className="text-xs sm:text-sm font-bold text-on-surface dark:text-[#e0e0e0] text-right">~0.0493% / day (~18% p.a.)</span>
             </div>
             <div className="flex justify-between items-center py-2 border-b border-outline-variant/30 dark:border-[#333]">
-              <span className="text-xs text-[#5f6368] dark:text-[#9e9e9e]">Brokerage (Equity Delivery)</span>
-              <span className="text-sm font-bold text-on-surface dark:text-[#e0e0e0]">₹20 or 0.03% (Max ₹20)</span>
+              <span className="text-xs text-[#5f6368] dark:text-[#9e9e9e]">Brokerage</span>
+              <span className="text-xs sm:text-sm font-bold text-on-surface dark:text-[#e0e0e0] text-right">₹20 or 0.03% (Max ₹20)</span>
             </div>
             <div className="flex justify-between items-center py-2 border-b border-outline-variant/30 dark:border-[#333]">
               <span className="text-xs text-[#5f6368] dark:text-[#9e9e9e]">DP Charges</span>
-              <span className="text-sm font-bold text-on-surface dark:text-[#e0e0e0]">₹13.50 + 18% GST = ₹15.93</span>
+              <span className="text-xs sm:text-sm font-bold text-on-surface dark:text-[#e0e0e0] text-right">₹13.50 + 18% GST = ₹15.93</span>
             </div>
             <div className="flex justify-between items-center py-2 border-b border-outline-variant/30 dark:border-[#333]">
               <span className="text-xs text-[#5f6368] dark:text-[#9e9e9e]">Pledge / Unpledge</span>
-              <span className="text-sm font-bold text-on-surface dark:text-[#e0e0e0]">₹30 + 18% GST = ₹35.40</span>
+              <span className="text-xs sm:text-sm font-bold text-on-surface dark:text-[#e0e0e0] text-right">₹30 + 18% GST = ₹35.40</span>
             </div>
-            <div className="flex justify-between items-center py-2 border-b border-outline-variant/30 dark:border-[#333]">
+            <div className="flex justify-between items-center py-2">
               <span className="text-xs text-[#5f6368] dark:text-[#9e9e9e]">Best Suited For</span>
-              <span className="text-xs font-bold text-primary dark:text-[#d4cb00]">Shorter swing trades (1-10 days)</span>
+              <span className="text-xs font-bold text-primary dark:text-[#d4cb00] text-right">Shorter swing trades (1-10 days)</span>
             </div>
           </div>
         </div>
@@ -55,29 +88,29 @@ export const ComparisonPage: React.FC<ComparisonPageProps> = ({
           <div className="flex flex-col gap-3">
             <div className="flex justify-between items-center py-2 border-b border-outline-variant/30 dark:border-[#333]">
               <span className="text-xs text-[#5f6368] dark:text-[#9e9e9e]">Interest Rate</span>
-              <span className="text-sm font-bold text-on-surface dark:text-[#e0e0e0]">~0.0410% / day (~14.95% p.a.)</span>
+              <span className="text-xs sm:text-sm font-bold text-on-surface dark:text-[#e0e0e0] text-right">~0.0410% / day (~14.95% p.a.)</span>
             </div>
             <div className="flex justify-between items-center py-2 border-b border-outline-variant/30 dark:border-[#333]">
-              <span className="text-xs text-[#5f6368] dark:text-[#9e9e9e]">Brokerage (Equity Delivery)</span>
-              <span className="text-sm font-bold text-on-surface dark:text-[#e0e0e0]">₹20 or 0.05% (Max ₹20)</span>
+              <span className="text-xs text-[#5f6368] dark:text-[#9e9e9e]">Brokerage</span>
+              <span className="text-xs sm:text-sm font-bold text-on-surface dark:text-[#e0e0e0] text-right">₹20 or 0.05% (Max ₹20)</span>
             </div>
             <div className="flex justify-between items-center py-2 border-b border-outline-variant/30 dark:border-[#333]">
               <span className="text-xs text-[#5f6368] dark:text-[#9e9e9e]">DP Charges</span>
-              <span className="text-sm font-bold text-on-surface dark:text-[#e0e0e0]">₹20 + 18% GST = ₹23.60</span>
+              <span className="text-xs sm:text-sm font-bold text-on-surface dark:text-[#e0e0e0] text-right">₹20 + 18% GST = ₹23.60</span>
             </div>
             <div className="flex justify-between items-center py-2 border-b border-outline-variant/30 dark:border-[#333]">
               <span className="text-xs text-[#5f6368] dark:text-[#9e9e9e]">Pledge / Unpledge</span>
-              <span className="text-sm font-bold text-on-surface dark:text-[#e0e0e0]">₹20 + 18% GST = ₹23.60</span>
+              <span className="text-xs sm:text-sm font-bold text-on-surface dark:text-[#e0e0e0] text-right">₹20 + 18% GST = ₹23.60</span>
             </div>
-            <div className="flex justify-between items-center py-2 border-b border-outline-variant/30 dark:border-[#333]">
+            <div className="flex justify-between items-center py-2">
               <span className="text-xs text-[#5f6368] dark:text-[#9e9e9e]">Best Suited For</span>
-              <span className="text-xs font-bold text-primary dark:text-[#d4cb00]">Longer holding periods (&gt;10 days)</span>
+              <span className="text-xs font-bold text-primary dark:text-[#d4cb00] text-right">Longer holding periods (&gt;10 days)</span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Head-to-Head Side-by-Side Comparison */}
+      {/* Head-to-Head Comparison */}
       <div className="bento-card pt-16 shadow-sm">
         <span className="bento-label">Current Trade Head-to-Head Comparison</span>
         
@@ -93,58 +126,64 @@ export const ComparisonPage: React.FC<ComparisonPageProps> = ({
             </button>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
-              <thead>
-                <tr className="border-b border-outline-variant dark:border-[#3a3a3a] text-xs text-[#5f6368] dark:text-[#9e9e9e] uppercase">
-                  <th className="py-3 px-2 font-medium">Metric</th>
-                  <th className="py-3 px-2 font-bold text-on-surface dark:text-[#e0e0e0]">Zerodha</th>
-                  <th className="py-3 px-2 font-bold text-on-surface dark:text-[#e0e0e0]">Groww</th>
-                  <th className="py-3 px-2 font-medium">Difference</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-outline-variant/30 dark:divide-[#333]">
-                <tr>
-                  <td className="py-2.5 px-2 text-[#5f6368] dark:text-[#9e9e9e]">Net Profit / Loss</td>
-                  <td className={`py-2.5 px-2 font-bold ${zerodhaCharges.netPnL >= 0 ? 'text-primary dark:text-[#a8e063]' : 'text-error'}`}>
-                    {f(zerodhaCharges.netPnL)}
-                  </td>
-                  <td className={`py-2.5 px-2 font-bold ${growwCharges.netPnL >= 0 ? 'text-primary dark:text-[#a8e063]' : 'text-error'}`}>
-                    {f(growwCharges.netPnL)}
-                  </td>
-                  <td className="py-2.5 px-2 font-bold text-on-surface dark:text-[#e0e0e0]">
-                    {f(Math.abs(zerodhaCharges.netPnL - growwCharges.netPnL))} ({zerodhaCharges.netPnL > growwCharges.netPnL ? 'Zerodha + ' : 'Groww + '})
-                  </td>
-                </tr>
-                <tr>
-                  <td className="py-2.5 px-2 text-[#5f6368] dark:text-[#9e9e9e]">Total Charges</td>
-                  <td className="py-2.5 px-2 font-bold text-error">{f(zerodhaCharges.totalCharges)}</td>
-                  <td className="py-2.5 px-2 font-bold text-error">{f(growwCharges.totalCharges)}</td>
-                  <td className="py-2.5 px-2 font-bold text-primary dark:text-[#d4cb00]">
-                    {f(Math.abs(zerodhaCharges.totalCharges - growwCharges.totalCharges))} cheaper ({zerodhaCharges.totalCharges < growwCharges.totalCharges ? 'Zerodha' : 'Groww'})
-                  </td>
-                </tr>
-                <tr>
-                  <td className="py-2.5 px-2 text-[#5f6368] dark:text-[#9e9e9e]">MTF Interest ({params.holdingDays} days)</td>
-                  <td className="py-2.5 px-2 font-medium text-error">{f(zerodhaCharges.mtfInterest)}</td>
-                  <td className="py-2.5 px-2 font-medium text-error">{f(growwCharges.mtfInterest)}</td>
-                  <td className="py-2.5 px-2 font-medium">{f(Math.abs(zerodhaCharges.mtfInterest - growwCharges.mtfInterest))}</td>
-                </tr>
-                <tr>
-                  <td className="py-2.5 px-2 text-[#5f6368] dark:text-[#9e9e9e]">DP + Pledge Charges</td>
-                  <td className="py-2.5 px-2 font-medium text-on-surface dark:text-[#e0e0e0]">{f(zerodhaCharges.dpCharges + zerodhaCharges.pledgeCharges)}</td>
-                  <td className="py-2.5 px-2 font-medium text-on-surface dark:text-[#e0e0e0]">{f(growwCharges.dpCharges + growwCharges.pledgeCharges)}</td>
-                  <td className="py-2.5 px-2 font-medium">{f(Math.abs((zerodhaCharges.dpCharges + zerodhaCharges.pledgeCharges) - (growwCharges.dpCharges + growwCharges.pledgeCharges)))}</td>
-                </tr>
-                <tr>
-                  <td className="py-2.5 px-2 text-[#5f6368] dark:text-[#9e9e9e]">Break-Even Sell Price</td>
-                  <td className="py-2.5 px-2 font-bold text-on-surface dark:text-[#e0e0e0]">₹{zerodhaCharges.breakEvenSellPrice.toFixed(2)}</td>
-                  <td className="py-2.5 px-2 font-bold text-on-surface dark:text-[#e0e0e0]">₹{growwCharges.breakEvenSellPrice.toFixed(2)}</td>
-                  <td className="py-2.5 px-2 font-bold text-on-surface dark:text-[#e0e0e0]">₹{Math.abs(zerodhaCharges.breakEvenSellPrice - growwCharges.breakEvenSellPrice).toFixed(2)}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <>
+            {/* Desktop Table */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="w-full text-left text-sm min-w-[500px]">
+                <thead>
+                  <tr className="border-b border-outline-variant dark:border-[#3a3a3a] text-xs text-[#5f6368] dark:text-[#9e9e9e] uppercase">
+                    <th className="py-3 px-2 font-medium">Metric</th>
+                    <th className="py-3 px-2 font-bold text-on-surface dark:text-[#e0e0e0]">Zerodha</th>
+                    <th className="py-3 px-2 font-bold text-on-surface dark:text-[#e0e0e0]">Groww</th>
+                    <th className="py-3 px-2 font-medium">Difference</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-outline-variant/30 dark:divide-[#333]">
+                  {comparisonRows.map((row, i) => (
+                    <tr key={i}>
+                      <td className="py-2.5 px-2 text-[#5f6368] dark:text-[#9e9e9e]">{row.label}</td>
+                      <td className={`py-2.5 px-2 font-bold ${row.z.positive ? 'text-primary dark:text-[#a8e063]' : 'text-error'}`}>
+                        {row.z.value}
+                      </td>
+                      <td className={`py-2.5 px-2 font-bold ${row.g.positive ? 'text-primary dark:text-[#a8e063]' : 'text-error'}`}>
+                        {row.g.value}
+                      </td>
+                      <td className="py-2.5 px-2 font-bold text-on-surface dark:text-[#e0e0e0] text-xs">
+                        {row.diff}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Mobile Card Layout */}
+            <div className="md:hidden flex flex-col gap-3">
+              {comparisonRows.map((row, i) => (
+                <div key={i} className="bg-[#f8f8f4] dark:bg-[#252525] p-3 rounded-lg border border-outline-variant/30 dark:border-[#333]">
+                  <div className="text-[11px] text-[#5f6368] dark:text-[#9e9e9e] uppercase tracking-wide font-medium mb-2">{row.label}</div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <div className="text-[10px] text-[#777] dark:text-[#888] mb-0.5">Zerodha</div>
+                      <div className={`text-sm font-bold ${row.z.positive ? 'text-primary dark:text-[#a8e063]' : 'text-error dark:text-[#ff6b6b]'}`}>
+                        {row.z.value}
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-[10px] text-[#777] dark:text-[#888] mb-0.5">Groww</div>
+                      <div className={`text-sm font-bold ${row.g.positive ? 'text-primary dark:text-[#a8e063]' : 'text-error dark:text-[#ff6b6b]'}`}>
+                        {row.g.value}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-2 pt-2 border-t border-outline-variant/20 dark:border-[#333]">
+                    <span className="text-[10px] text-[#777] dark:text-[#888]">Diff: </span>
+                    <span className="text-xs font-bold text-on-surface dark:text-[#e0e0e0]">{row.diff}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </div>
     </div>

@@ -54,8 +54,8 @@ export const SimulatorPage: React.FC<SimulatorPageProps> = ({
           </div>
 
           {/* Scenarios Table */}
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
+          <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
+            <table className="w-full text-left text-sm min-w-[550px]">
               <thead>
                 <tr className="border-b border-outline-variant dark:border-[#3a3a3a] text-xs text-[#5f6368] dark:text-[#9e9e9e] uppercase">
                   <th className="py-3 px-2 font-medium">Price Move</th>

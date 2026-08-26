@@ -390,7 +390,7 @@ function App() {
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 lg:ml-64 h-screen overflow-y-auto pt-20 lg:pt-0 p-4 lg:p-gutter">
+      <main className="flex-1 lg:ml-64 h-screen overflow-y-auto px-4 pt-16 pb-28 lg:pt-6 lg:px-gutter lg:pb-6">
         <div className="max-w-container-max mx-auto h-full flex flex-col gap-gutter">
 
           {/* Header */}
@@ -438,7 +438,7 @@ function App() {
 
           {/* Active Tab Views */}
           {activeTab === 'Calculator' && (
-            <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-gutter flex-1 auto-rows-min pb-24 lg:pb-4">
+            <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-gutter flex-1 auto-rows-min">
               {/* Left Column: Trade Parameters (Spans 4 cols on lg) */}
               <TradeInputForm params={params} onChange={setParams} onSave={handleSaveToHistory} savedToast={savedToast} />
 
