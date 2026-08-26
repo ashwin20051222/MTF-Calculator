@@ -16,27 +16,22 @@ export const Logo: React.FC<LogoProps> = ({ className = 'w-8 h-8', size = 36 }) 
       className={className}
     >
       <defs>
-        <linearGradient id="nano-bg" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#222805" />
-          <stop offset="100%" stopColor="#101301" />
+        <linearGradient id="mtf-logo-bg" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#6b6d13" />
+          <stop offset="100%" stopColor="#2c2d04" />
         </linearGradient>
-        <linearGradient id="banana-main" x1="6" y1="8" x2="30" y2="28" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#fff566" />
-          <stop offset="50%" stopColor="#ffd400" />
-          <stop offset="100%" stopColor="#f59e0b" />
+        <linearGradient id="mtf-logo-accent" x1="6" y1="30" x2="30" y2="6" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#fdfd00" />
+          <stop offset="100%" stopColor="#d4cb00" />
         </linearGradient>
-        <linearGradient id="banana-inner" x1="8" y1="12" x2="28" y2="26" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#fffec4" />
-          <stop offset="100%" stopColor="#ffe600" />
-        </linearGradient>
-        <linearGradient id="stem-grad" x1="24" y1="5" x2="28" y2="10" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#84cc16" />
-          <stop offset="100%" stopColor="#4d7c0f" />
+        <linearGradient id="mtf-chart-bar" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.9" />
+          <stop offset="100%" stopColor="#ffffff" stopOpacity="0.4" />
         </linearGradient>
       </defs>
 
-      {/* Rounded Squircle Backdrop */}
-      <rect width="36" height="36" rx="9" fill="url(#nano-bg)" />
+      {/* Rounded squircle backdrop */}
+      <rect width="36" height="36" rx="9" fill="url(#mtf-logo-bg)" />
       <rect
         width="34"
         height="34"
@@ -44,59 +39,37 @@ export const Logo: React.FC<LogoProps> = ({ className = 'w-8 h-8', size = 36 }) 
         y="1"
         rx="8"
         fill="none"
-        stroke="#ffd400"
-        strokeOpacity="0.35"
+        stroke="#fdfd00"
+        strokeOpacity="0.3"
         strokeWidth="1"
       />
 
-      {/* Nano Banana Main Outer Curve */}
-      <path
-        d="M26 7.5C23.5 8 18 10 13 14.5C8.5 18.5 7 23 8.5 26.5C10 29.5 14 30 18.5 28C23 26 27.5 21.5 29 17C29.8 14.5 29.5 11 26 7.5Z"
-        fill="url(#banana-main)"
-      />
+      {/* Stylized 'M' / Margin Growth Chart */}
+      {/* Left Column */}
+      <rect x="7.5" y="16" width="4" height="12" rx="2" fill="url(#mtf-chart-bar)" />
 
-      {/* Inner Banana Highlight Ridge */}
-      <path
-        d="M24.5 9.5C21 11.5 16.5 14 12.5 18C9.5 21 8.5 24 10 26C11 27.5 14 27.5 17.5 26C21.5 24 25.5 20 27 16C27.8 13.5 27 11 24.5 9.5Z"
-        fill="url(#banana-inner)"
-        opacity="0.85"
-      />
+      {/* Center Peak Column */}
+      <rect x="16" y="11" width="4" height="17" rx="2" fill="url(#mtf-logo-accent)" />
 
-      {/* Nano Tech Circuitry Lines on Banana */}
+      {/* Right Column with upward growth */}
+      <rect x="24.5" y="7" width="4" height="21" rx="2" fill="url(#mtf-logo-accent)" />
+
+      {/* Connecting Trend Line / Margin Multiplier Arrow */}
       <path
-        d="M12 19.5C15 16.5 19 14.5 23 13"
+        d="M9.5 16L18 9L26.5 6"
         stroke="#ffffff"
-        strokeWidth="1.2"
+        strokeWidth="2"
         strokeLinecap="round"
-        opacity="0.95"
+        strokeLinejoin="round"
       />
+
+      {/* Arrowhead at top right */}
       <path
-        d="M14 23.5C17.5 21.5 21 19 24.5 16.5"
+        d="M23 6H26.5V9.5"
         stroke="#ffffff"
-        strokeWidth="0.9"
+        strokeWidth="2"
         strokeLinecap="round"
-        strokeDasharray="2 1.5"
-        opacity="0.85"
-      />
-
-      {/* Nano Nodes / Tech Dots */}
-      <circle cx="12" cy="19.5" r="1.2" fill="#ffffff" />
-      <circle cx="23" cy="13" r="1.2" fill="#ffffff" />
-      <circle cx="18" cy="15.5" r="1" fill="#ffd400" />
-      <circle cx="25" cy="16.5" r="1" fill="#ffffff" />
-
-      {/* Nano Stem Top (Green Cyber Node) */}
-      <path
-        d="M26 7.5L27.5 5.5C28 4.8 29 4.8 29.5 5.5C29.8 6 29.5 7 28.5 7.8L26 8.5"
-        fill="url(#stem-grad)"
-        stroke="#84cc16"
-        strokeWidth="0.5"
-      />
-
-      {/* Nano Bottom Tip */}
-      <path
-        d="M8.5 26.5L7 28C6.5 28.5 6.8 29.2 7.5 29.2C8.2 29.2 9 28.5 9.5 27.5L8.5 26.5Z"
-        fill="#78350f"
+        strokeLinejoin="round"
       />
     </svg>
   );

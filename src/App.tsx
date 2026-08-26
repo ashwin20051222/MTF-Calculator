@@ -44,6 +44,7 @@ function App() {
   });
 
   const [supportOpen, setSupportOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     if (darkMode) {
@@ -193,41 +194,143 @@ function App() {
   return (
     <div className="flex overflow-hidden min-h-screen">
       {/* Top Navigation (Mobile only, hidden on lg) */}
-      <nav className="lg:hidden fixed top-0 w-full z-50 flex justify-between items-center px-margin py-3 max-w-container-max mx-auto bg-[#f4f4ef] dark:bg-[#1a1a1a] border-b border-outline-variant dark:border-[#3a3a3a]">
-        <div className="flex items-center gap-2.5">
-          <Logo className="w-7 h-7 rounded-md shadow-sm shrink-0" size={28} />
-          <span className="text-lg font-bold text-on-surface dark:text-[#e0e0e0] tracking-wide">MTF Pro</span>
-        </div>
-        <div className="flex gap-2 items-center">
-          {activeTab === 'Calculator' && (
-            <button 
-              onClick={() => handleSaveToHistory()}
-              disabled={!hasInput}
-              className={`p-1.5 rounded-lg flex items-center justify-center transition-colors ${
-                hasInput 
-                  ? 'text-primary dark:text-[#d4cb00] bg-primary/10 dark:bg-[#d4cb00]/15 cursor-pointer' 
-                  : 'text-[#888] opacity-40 cursor-not-allowed'
-              }`}
-              title={hasInput ? "Save Calculation to History" : "Enter trade values to save"}
-            >
-              <span className="material-symbols-outlined text-base">{savedToast ? 'bookmark_added' : 'bookmark'}</span>
-            </button>
-          )}
-          <DownloadAppButton variant="nav" />
-          <button 
-            onClick={() => setDarkMode(!darkMode)}
-            className="material-symbols-outlined text-primary dark:text-[#d4cb00] cursor-pointer transition-colors duration-200 text-base p-1"
+      <nav className="lg:hidden fixed top-0 w-full z-50 flex justify-between items-center px-3 py-2.5 max-w-container-max mx-auto bg-[#f4f4ef] dark:bg-[#1a1a1a] border-b border-outline-variant dark:border-[#3a3a3a] shadow-xs">
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setMobileMenuOpen(true)}
+            className="p-1 rounded-lg text-on-surface dark:text-[#e0e0e0] hover:bg-surface-variant dark:hover:bg-[#2a2a2a] cursor-pointer flex items-center justify-center"
+            title="Open Menu"
           >
-            {darkMode ? 'light_mode' : 'dark_mode'}
+            <span className="material-symbols-outlined text-2xl">menu</span>
           </button>
-          <span 
-            onClick={() => setSupportOpen(true)}
-            className="material-symbols-outlined text-primary dark:text-[#d4cb00] cursor-pointer text-base p-1"
+          <div 
+            onClick={() => { setActiveTab('Calculator'); setMobileMenuOpen(false); }}
+            className="flex items-center gap-2 cursor-pointer"
           >
-            account_circle
-          </span>
+            <Logo className="w-7 h-7 rounded-md shadow-xs shrink-0" size={28} />
+            <span className="text-base font-bold text-on-surface dark:text-[#e0e0e0] tracking-wide">MTF Pro</span>
+          </div>
+        </div>
+
+        <div className="flex gap-1.5 items-center">
+          <button
+            onClick={handleNewCalculation}
+            className="flex items-center gap-1 bg-[#6b6d13] dark:bg-[#d4cb00] text-on-primary dark:text-[#1a1a00] px-2.5 py-1 rounded-full text-xs font-bold shadow-xs active:scale-95 cursor-pointer"
+            title="Start New Calculation"
+          >
+            <span className="material-symbols-outlined text-sm">add</span>
+            <span>New</span>
+          </button>
+          
+          <button 
+            onClick={() => handleSaveToHistory()}
+            className="p-1.5 rounded-full flex items-center justify-center text-[#6b6d13] dark:text-[#d4cb00] bg-[#6b6d13]/10 dark:bg-[#d4cb00]/15 active:scale-95 cursor-pointer border border-[#6b6d13]/20"
+            title="Save Calculation to History"
+          >
+            <span className="material-symbols-outlined text-sm">{savedToast ? 'bookmark_added' : 'bookmark'}</span>
+          </button>
+
+          <DownloadAppButton variant="nav" />
         </div>
       </nav>
+
+      {/* Mobile Slide-Over Drawer Navigation */}
+      {mobileMenuOpen && (
+        <div className="lg:hidden fixed inset-0 z-50 flex">
+          {/* Backdrop */}
+          <div 
+            onClick={() => setMobileMenuOpen(false)}
+            className="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity"
+          />
+
+          {/* Drawer Panel */}
+          <div className="relative w-4/5 max-w-xs bg-[#fcfcf9] dark:bg-[#1e1e1e] h-full shadow-2xl z-10 flex flex-col p-5 animate-in slide-in-from-left duration-200 border-r border-outline-variant dark:border-[#3a3a3a]">
+            <div className="flex items-center justify-between pb-4 border-b border-outline-variant dark:border-[#3a3a3a] mb-4">
+              <div className="flex items-center gap-3">
+                <Logo className="w-8 h-8 rounded-lg shadow-xs shrink-0" size={32} />
+                <div>
+                  <h2 className="text-base font-bold text-primary dark:text-[#d4cb00] leading-none">MTF Pro</h2>
+                  <span className="text-[11px] text-[#5f6368] dark:text-[#9e9e9e]">Trade Calculator</span>
+                </div>
+              </div>
+              <button
+                onClick={() => setMobileMenuOpen(false)}
+                className="p-1 text-[#5f6368] hover:text-on-surface dark:text-[#9e9e9e] cursor-pointer"
+              >
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            </div>
+
+            {/* New Calculation Action */}
+            <button 
+              onClick={() => {
+                handleNewCalculation();
+                setMobileMenuOpen(false);
+              }}
+              className="bg-[#6b6d13] dark:bg-[#d4cb00] text-on-primary dark:text-[#1a1a00] text-xs font-bold py-2.5 px-4 rounded-xl hover:bg-primary transition-all shadow-sm w-full flex justify-center items-center gap-2 cursor-pointer mb-4 active:scale-98"
+            >
+              <span className="material-symbols-outlined text-sm">add</span> New Calculation
+            </button>
+
+            {/* Navigation Links */}
+            <nav className="flex flex-col gap-1.5 flex-1 overflow-y-auto">
+              {[
+                { tab: 'Calculator' as Tab, label: 'Calculator', icon: 'calculate' },
+                { tab: 'Comparison' as Tab, label: 'Broker Comparison', icon: 'compare_arrows' },
+                { tab: 'Break-Even' as Tab, label: 'Break-Even & Targets', icon: 'trending_up' },
+                { tab: 'Simulator' as Tab, label: 'Scenario Simulator', icon: 'query_stats' },
+                { tab: 'History' as Tab, label: `History (${history.length})`, icon: 'history' },
+                { tab: 'Settings' as Tab, label: 'Settings & Rates', icon: 'settings' },
+              ].map(({ tab, label, icon }) => {
+                const isActive = activeTab === tab;
+                return (
+                  <button
+                    key={tab}
+                    onClick={() => {
+                      setActiveTab(tab);
+                      setMobileMenuOpen(false);
+                    }}
+                    className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold text-left transition-colors cursor-pointer ${
+                      isActive
+                        ? 'bg-[#fdfd00]/20 text-[#6b6d13] dark:text-[#d4cb00] border border-[#6b6d13]/20 dark:border-[#d4cb00]/20'
+                        : 'text-on-surface-variant dark:text-[#bbb] hover:bg-surface-variant dark:hover:bg-[#2a2a2a]'
+                    }`}
+                  >
+                    <span className="material-symbols-outlined text-lg">{icon}</span>
+                    <span>{label}</span>
+                  </button>
+                );
+              })}
+            </nav>
+
+            {/* Bottom Actions */}
+            <div className="pt-4 border-t border-outline-variant dark:border-[#3a3a3a] flex flex-col gap-2 mt-auto">
+              <button 
+                onClick={() => setDarkMode(!darkMode)}
+                className="flex items-center gap-3 text-xs font-semibold text-[#5f6368] dark:text-[#9e9e9e] hover:bg-surface-variant dark:hover:bg-[#2a2a2a] rounded-lg px-3 py-2 cursor-pointer w-full text-left"
+              >
+                <span className="material-symbols-outlined text-base">{darkMode ? 'light_mode' : 'dark_mode'}</span>
+                <span>{darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}</span>
+              </button>
+
+              <button 
+                onClick={() => {
+                  setSupportOpen(true);
+                  setMobileMenuOpen(false);
+                }}
+                className="flex items-center gap-3 text-xs font-semibold text-[#5f6368] dark:text-[#9e9e9e] hover:bg-surface-variant dark:hover:bg-[#2a2a2a] rounded-lg px-3 py-2 cursor-pointer w-full text-left"
+              >
+                <span className="material-symbols-outlined text-base">help</span>
+                <span>Support & Info</span>
+              </button>
+
+              <div className="text-[10px] text-[#777] px-3 pt-1">
+                Rates: {ratesDate} • Built for Swing Traders
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Side Navigation (Desktop only) */}
       <aside className="hidden lg:flex flex-col h-screen fixed left-0 top-0 py-panel-padding bg-[#f4f4ef] dark:bg-[#1a1a1a] border-r border-outline-variant dark:border-[#3a3a3a] w-64 z-40 transition-colors duration-300">
@@ -504,18 +607,13 @@ function App() {
       )}
 
       {/* Bottom Nav (Mobile only, hidden on lg) */}
-      <nav className="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 bg-[#f4f4ef] dark:bg-[#1a1a1a] border-t border-outline-variant dark:border-[#3a3a3a] rounded-t-xl shadow-lg pb-safe">
-        {renderMobileNavButton('Calculator', 'Calc', 'analytics')}
-        {renderMobileNavButton('Comparison', 'Compare', 'compare')}
-        {renderMobileNavButton('Simulator', 'Sim', 'insights')}
+      <nav className="lg:hidden fixed bottom-0 left-0 w-full z-40 flex justify-between items-center h-16 bg-[#f4f4ef] dark:bg-[#1a1a1a] border-t border-outline-variant dark:border-[#3a3a3a] shadow-lg pb-safe px-1">
+        {renderMobileNavButton('Calculator', 'Calc', 'calculate')}
+        {renderMobileNavButton('Comparison', 'Compare', 'compare_arrows')}
+        {renderMobileNavButton('Break-Even', 'Targets', 'trending_up')}
+        {renderMobileNavButton('Simulator', 'Sim', 'query_stats')}
         {renderMobileNavButton('History', 'History', 'history')}
-        <div 
-          onClick={() => setDarkMode(!darkMode)}
-          className="flex flex-col items-center justify-center text-[#5f6368] dark:text-[#9e9e9e] font-medium hover:bg-surface-container-highest dark:hover:bg-[#2a2a2a] transition-colors w-full h-full cursor-pointer"
-        >
-          <span className="material-symbols-outlined mb-1">{darkMode ? 'light_mode' : 'dark_mode'}</span>
-          <span className="text-xs">Theme</span>
-        </div>
+        {renderMobileNavButton('Settings', 'Settings', 'settings')}
       </nav>
     </div>
   );
