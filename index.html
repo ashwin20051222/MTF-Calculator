@@ -19,6 +19,9 @@
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     <script>
+      if (window.location.pathname === '/MTF-Calculator') {
+        window.location.replace('/MTF-Calculator/' + window.location.search + window.location.hash);
+      }
       window.deferredInstallPrompt = null;
       window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
@@ -26,8 +29,10 @@
       });
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('./sw.js').catch((err) => {
-            console.log('SW registration failed: ', err);
+          navigator.serviceWorker.register('/MTF-Calculator/sw.js', { scope: '/MTF-Calculator/' }).catch(() => {
+            navigator.serviceWorker.register('./sw.js').catch((err) => {
+              console.log('SW registration error: ', err);
+            });
           });
         });
       }

@@ -1,5 +1,5 @@
-// Service Worker for MTF Pro PWA
-const CACHE_NAME = 'mtf-pro-v1';
+// Lightweight & safe Service Worker for MTF Pro PWA
+const CACHE_NAME = 'mtf-pro-v2';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
@@ -20,28 +20,29 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
+// Safe network-first fetch handler that never returns undefined or breaks pages
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
+  
+  // Only intercept same-origin requests
+  const url = new URL(event.request.url);
+  if (url.origin !== self.location.origin) return;
+
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        return cachedResponse;
-      }
-      return fetch(event.request)
-        .then((response) => {
-          if (!response || response.status !== 200 || response.type !== 'basic') {
-            return response;
-          }
+    fetch(event.request)
+      .then((response) => {
+        if (response && response.status === 200) {
           const responseToCache = response.clone();
           caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, responseToCache);
+            cache.put(event.request, responseToCache).catch(() => {});
           });
-          return response;
-        })
-        .catch(() => {
-          // If offline and request fails
-          return caches.match('./index.html');
+        }
+        return response;
+      })
+      .catch(() => {
+        return caches.match(event.request).then((cached) => {
+          return cached || caches.match('/MTF-Calculator/') || caches.match('./');
         });
-    })
+      })
   );
 });
