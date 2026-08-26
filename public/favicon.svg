@@ -1,34 +1,35 @@
-<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="512" height="512" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="mtf-fav-bg" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stopColor="#6b6d13" />
-      <stop offset="100%" stopColor="#222302" />
-    </linearGradient>
-    <linearGradient id="mtf-fav-accent" x1="10" y1="52" x2="54" y2="10" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stopColor="#fdfd00" />
-      <stop offset="100%" stopColor="#d4cb00" />
-    </linearGradient>
-    <linearGradient id="mtf-fav-bar" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stopColor="#ffffff" stopOpacity="0.9" />
-      <stop offset="100%" stopColor="#ffffff" stopOpacity="0.5" />
-    </linearGradient>
+    <clipPath id="right-bar-clip-fav">
+      <rect x="64" y="25" width="13" height="54" rx="4.5" />
+    </clipPath>
   </defs>
 
-  <!-- Background Squircle -->
-  <rect width="64" height="64" rx="16" fill="url(#mtf-fav-bg)" />
-  <rect width="60" height="60" x="2" y="2" rx="14" fill="none" stroke="#fdfd00" stroke-opacity="0.35" stroke-width="2" />
+  <!-- Rounded Squircle Background -->
+  <rect width="100" height="100" rx="22" fill="#616715" />
 
-  <!-- Growth Pillars / MTF Symbol -->
-  <!-- Left Bar -->
-  <rect x="13" y="28" width="7" height="22" rx="3.5" fill="url(#mtf-fav-bar)" />
+  <!-- Baseline -->
+  <line
+    x1="18"
+    y1="82"
+    x2="82"
+    y2="82"
+    stroke="#848b29"
+    stroke-width="2.5"
+    stroke-linecap="round"
+  />
 
-  <!-- Middle Bar -->
-  <rect x="28.5" y="19" width="7" height="31" rx="3.5" fill="url(#mtf-fav-accent)" />
+  <!-- Left Bar (Shortest - White) -->
+  <rect x="23" y="57" width="13" height="22" rx="4.5" fill="#f5f5f0" />
 
-  <!-- Right Bar -->
-  <rect x="44" y="12" width="7" height="38" rx="3.5" fill="url(#mtf-fav-accent)" />
+  <!-- Middle Bar (Medium - White) -->
+  <rect x="43.5" y="41" width="13" height="38" rx="4.5" fill="#f5f5f0" />
 
-  <!-- Trend Line / Margin Leverage Arrow -->
-  <path d="M16.5 28L32 16L47.5 10" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
-  <path d="M41 10H47.5V16.5" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+  <!-- Right Bar (Tallest - Top Yellow / Bottom White) -->
+  <g clip-path="url(#right-bar-clip-fav)">
+    <!-- Bottom portion (White) -->
+    <rect x="64" y="47.5" width="13" height="32" fill="#f5f5f0" />
+    <!-- Top portion (Vibrant Yellow) -->
+    <rect x="64" y="25" width="13" height="23" fill="#ffff00" />
+  </g>
 </svg>

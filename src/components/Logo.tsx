@@ -10,67 +10,44 @@ export const Logo: React.FC<LogoProps> = ({ className = 'w-8 h-8', size = 36 }) 
     <svg
       width={size}
       height={size}
-      viewBox="0 0 36 36"
+      viewBox="0 0 100 100"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
     >
       <defs>
-        <linearGradient id="mtf-logo-bg" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#6b6d13" />
-          <stop offset="100%" stopColor="#2c2d04" />
-        </linearGradient>
-        <linearGradient id="mtf-logo-accent" x1="6" y1="30" x2="30" y2="6" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#fdfd00" />
-          <stop offset="100%" stopColor="#d4cb00" />
-        </linearGradient>
-        <linearGradient id="mtf-chart-bar" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.9" />
-          <stop offset="100%" stopColor="#ffffff" stopOpacity="0.4" />
-        </linearGradient>
+        <clipPath id="right-bar-clip">
+          <rect x="64" y="25" width="13" height="54" rx="4.5" />
+        </clipPath>
       </defs>
 
-      {/* Rounded squircle backdrop */}
-      <rect width="36" height="36" rx="9" fill="url(#mtf-logo-bg)" />
-      <rect
-        width="34"
-        height="34"
-        x="1"
-        y="1"
-        rx="8"
-        fill="none"
-        stroke="#fdfd00"
-        strokeOpacity="0.3"
-        strokeWidth="1"
-      />
+      {/* Rounded Squircle Background */}
+      <rect width="100" height="100" rx="22" fill="#616715" />
 
-      {/* Stylized 'M' / Margin Growth Chart */}
-      {/* Left Column */}
-      <rect x="7.5" y="16" width="4" height="12" rx="2" fill="url(#mtf-chart-bar)" />
-
-      {/* Center Peak Column */}
-      <rect x="16" y="11" width="4" height="17" rx="2" fill="url(#mtf-logo-accent)" />
-
-      {/* Right Column with upward growth */}
-      <rect x="24.5" y="7" width="4" height="21" rx="2" fill="url(#mtf-logo-accent)" />
-
-      {/* Connecting Trend Line / Margin Multiplier Arrow */}
-      <path
-        d="M9.5 16L18 9L26.5 6"
-        stroke="#ffffff"
-        strokeWidth="2"
+      {/* Baseline */}
+      <line
+        x1="18"
+        y1="82"
+        x2="82"
+        y2="82"
+        stroke="#848b29"
+        strokeWidth="2.5"
         strokeLinecap="round"
-        strokeLinejoin="round"
       />
 
-      {/* Arrowhead at top right */}
-      <path
-        d="M23 6H26.5V9.5"
-        stroke="#ffffff"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      {/* Left Bar (Shortest - White) */}
+      <rect x="23" y="57" width="13" height="22" rx="4.5" fill="#f5f5f0" />
+
+      {/* Middle Bar (Medium - White) */}
+      <rect x="43.5" y="41" width="13" height="38" rx="4.5" fill="#f5f5f0" />
+
+      {/* Right Bar (Tallest - Top Yellow / Bottom White) */}
+      <g clipPath="url(#right-bar-clip)">
+        {/* Bottom portion (White) */}
+        <rect x="64" y="47.5" width="13" height="32" fill="#f5f5f0" />
+        {/* Top portion (Vibrant Yellow) */}
+        <rect x="64" y="25" width="13" height="23" fill="#ffff00" />
+      </g>
     </svg>
   );
 };
