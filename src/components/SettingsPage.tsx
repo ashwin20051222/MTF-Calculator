@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import type { TradeParams } from '../engine/calculator';
+import { DownloadAppButton } from './DownloadAppButton';
 
 interface SettingsPageProps {
   params: TradeParams;
@@ -69,6 +70,11 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
     <div className="flex flex-col gap-gutter max-w-3xl">
       <div className="bento-card pt-16 shadow-sm">
         <span className="bento-label">MTF Settings &amp; Rate Configuration</span>
+
+        {/* Mobile & Offline PWA Card */}
+        <div className="mb-6">
+          <DownloadAppButton variant="card" />
+        </div>
 
         {savedMessage && (
           <div className="mb-4 bg-primary/10 dark:bg-[#d4cb00]/10 border border-primary/20 text-primary dark:text-[#d4cb00] text-xs font-bold px-4 py-2.5 rounded-lg flex items-center gap-2">

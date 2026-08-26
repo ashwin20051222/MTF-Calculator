@@ -9,6 +9,7 @@ import { SimulatorPage } from './components/SimulatorPage';
 import { HistoryPage, type HistoryEntry } from './components/HistoryPage';
 import { SettingsPage } from './components/SettingsPage';
 import { Logo } from './components/Logo';
+import { DownloadAppButton } from './components/DownloadAppButton';
 
 type Tab = 'Calculator' | 'Comparison' | 'Break-Even' | 'Simulator' | 'History' | 'Settings';
 
@@ -185,12 +186,13 @@ function App() {
   return (
     <div className="flex overflow-hidden min-h-screen">
       {/* Top Navigation (Mobile only, hidden on lg) */}
-      <nav className="lg:hidden fixed top-0 w-full z-50 flex justify-between items-center px-margin py-4 max-w-container-max mx-auto bg-[#f4f4ef] dark:bg-[#1a1a1a] border-b border-outline-variant dark:border-[#3a3a3a]">
+      <nav className="lg:hidden fixed top-0 w-full z-50 flex justify-between items-center px-margin py-3 max-w-container-max mx-auto bg-[#f4f4ef] dark:bg-[#1a1a1a] border-b border-outline-variant dark:border-[#3a3a3a]">
         <div className="flex items-center gap-2.5">
           <Logo className="w-7 h-7 rounded-md shadow-sm shrink-0" size={28} />
           <span className="text-lg font-bold text-on-surface dark:text-[#e0e0e0] tracking-wide">MTF Pro</span>
         </div>
-        <div className="flex gap-4 items-center">
+        <div className="flex gap-2.5 items-center">
+          <DownloadAppButton variant="nav" />
           <button 
             onClick={() => setDarkMode(!darkMode)}
             className="material-symbols-outlined text-primary dark:text-[#d4cb00] cursor-pointer transition-colors duration-200"
@@ -247,6 +249,8 @@ function App() {
             <span className="text-sm">Settings</span>
           </button>
 
+          <DownloadAppButton variant="sidebar" />
+          
           <button 
             onClick={() => setSupportOpen(true)}
             className="flex items-center gap-3 text-[#5f6368] dark:text-[#9e9e9e] font-medium hover:bg-surface-variant dark:hover:bg-[#2a2a2a] rounded-lg px-2 py-2 hover:text-primary dark:hover:text-[#d4cb00] transition-colors w-full text-left cursor-pointer"
@@ -286,6 +290,7 @@ function App() {
               </p>
             </div>
             <div className="flex items-center gap-3">
+              <DownloadAppButton variant="nav" />
               {hasInput && activeTab === 'Calculator' && (
                 <button
                   onClick={() => handleSaveToHistory()}
