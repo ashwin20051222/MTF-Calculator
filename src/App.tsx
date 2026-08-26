@@ -308,6 +308,7 @@ function App() {
               </p>
             </div>
             <div className="flex items-center gap-3">
+              <DownloadAppButton variant="nav" />
               {activeTab === 'Calculator' && (
                 <button
                   onClick={() => handleSaveToHistory()}
