@@ -6,7 +6,7 @@ A modern, high-precision financial analytics tool built for Indian stock market 
 
 ## 🚀 Live Demo
 
-🔗 **[Launch MTF Calculator Web App](https://yourusername.github.io/your-repo-name/)**
+🔗 **[Launch MTF Calculator Web App](https://ashwin20051222.github.io/MTF-Calculator/)**
 
 ---
 
@@ -50,8 +50,8 @@ A modern, high-precision financial analytics tool built for Indian stock market 
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/mtf-calculator.git
-cd mtf-calculator
+git clone https://github.com/ashwin20051222/MTF-Calculator.git
+cd MTF-Calculator
 ```
 
 ### 2. Install dependencies
