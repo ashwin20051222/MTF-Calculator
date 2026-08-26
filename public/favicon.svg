@@ -1,34 +1,75 @@
 <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="mtf-fav-bg" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stopColor="#6b6d13" />
-      <stop offset="100%" stopColor="#222302" />
+    <linearGradient id="nano-fav-bg" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stopColor="#222805" />
+      <stop offset="100%" stopColor="#0d0f01" />
     </linearGradient>
-    <linearGradient id="mtf-fav-accent" x1="10" y1="52" x2="54" y2="10" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stopColor="#fdfd00" />
-      <stop offset="100%" stopColor="#d4cb00" />
+    <linearGradient id="fav-banana-main" x1="10" y1="14" x2="54" y2="50" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stopColor="#fff566" />
+      <stop offset="50%" stopColor="#ffd400" />
+      <stop offset="100%" stopColor="#f59e0b" />
     </linearGradient>
-    <linearGradient id="mtf-fav-bar" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stopColor="#ffffff" stopOpacity="0.9" />
-      <stop offset="100%" stopColor="#ffffff" stopOpacity="0.5" />
+    <linearGradient id="fav-banana-inner" x1="14" y1="21" x2="50" y2="46" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stopColor="#fffec4" />
+      <stop offset="100%" stopColor="#ffe600" />
+    </linearGradient>
+    <linearGradient id="fav-stem-grad" x1="43" y1="9" x2="50" y2="18" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stopColor="#84cc16" />
+      <stop offset="100%" stopColor="#4d7c0f" />
     </linearGradient>
   </defs>
 
-  <!-- Background Squircle -->
-  <rect width="64" height="64" rx="16" fill="url(#mtf-fav-bg)" />
-  <rect width="60" height="60" x="2" y="2" rx="14" fill="none" stroke="#fdfd00" stroke-opacity="0.35" stroke-width="2" />
+  <!-- Rounded Squircle Backdrop -->
+  <rect width="64" height="64" rx="16" fill="url(#nano-fav-bg)" />
+  <rect width="60" height="60" x="2" y="2" rx="14" fill="none" stroke="#ffd400" stroke-opacity="0.4" stroke-width="2" />
 
-  <!-- Growth Pillars / MTF Symbol -->
-  <!-- Left Bar -->
-  <rect x="13" y="28" width="7" height="22" rx="3.5" fill="url(#mtf-fav-bar)" />
+  <!-- Nano Banana Main Outer Curve -->
+  <path
+    d="M46 13.5C41.5 14.5 32 18 23 26C15 33 12.5 41 15 47C18 52.5 25 53.5 33 50C41 46.5 49 38.5 51.5 30.5C53 26 52.5 19.5 46 13.5Z"
+    fill="url(#fav-banana-main)"
+  />
 
-  <!-- Middle Bar -->
-  <rect x="28.5" y="19" width="7" height="31" rx="3.5" fill="url(#mtf-fav-accent)" />
+  <!-- Inner Banana Highlight Ridge -->
+  <path
+    d="M43.5 17C37.5 20.5 29.5 25 22.5 32C17 37.5 15 43 18 46.5C19.5 49 25 49 31 46.5C38 43 45.5 35.5 48 28.5C49.5 24 48 19.5 43.5 17Z"
+    fill="url(#fav-banana-inner)"
+    opacity="0.85"
+  />
 
-  <!-- Right Bar -->
-  <rect x="44" y="12" width="7" height="38" rx="3.5" fill="url(#mtf-fav-accent)" />
+  <!-- Nano Tech Circuitry Lines -->
+  <path
+    d="M21.5 35C27 29.5 34 26 41 23"
+    stroke="#ffffff"
+    stroke-width="2.2"
+    stroke-linecap="round"
+    opacity="0.95"
+  />
+  <path
+    d="M25 42C31 38.5 37.5 34 43.5 29.5"
+    stroke="#ffffff"
+    stroke-width="1.6"
+    stroke-linecap="round"
+    stroke-dasharray="3.5 2.5"
+    opacity="0.85"
+  />
 
-  <!-- Trend Line / Margin Leverage Arrow -->
-  <path d="M16.5 28L32 16L47.5 10" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
-  <path d="M41 10H47.5V16.5" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+  <!-- Nano Nodes / Tech Dots -->
+  <circle cx="21.5" cy="35" r="2.2" fill="#ffffff" />
+  <circle cx="41" cy="23" r="2.2" fill="#ffffff" />
+  <circle cx="32" cy="27.5" r="1.8" fill="#ffd400" />
+  <circle cx="44.5" cy="29.5" r="1.8" fill="#ffffff" />
+
+  <!-- Nano Stem Top (Green Cyber Node) -->
+  <path
+    d="M46 13.5L49 10C49.8 8.8 51.5 8.8 52.5 10C53 10.8 52.5 12.5 50.8 14L46 15.2"
+    fill="url(#fav-stem-grad)"
+    stroke="#84cc16"
+    stroke-width="1"
+  />
+
+  <!-- Nano Bottom Tip -->
+  <path
+    d="M15 47L12.5 49.5C11.5 50.5 12 51.8 13.2 51.8C14.5 51.8 16 50.5 17 48.8L15 47Z"
+    fill="#78350f"
+  />
 </svg>
