@@ -98,9 +98,14 @@ function App() {
   const growwWinner = hasInput && growwCharges.netPnL > zerodhaCharges.netPnL;
 
   const [savedToast, setSavedToast] = useState(false);
+  const [saveAlert, setSaveAlert] = useState<string | null>(null);
 
   const handleSaveToHistory = (stockSymbol = 'TRADE') => {
-    if (!hasInput) return;
+    if (!hasInput) {
+      setSaveAlert("Please enter Quantity, Buy Price & Sell Price to save!");
+      setTimeout(() => setSaveAlert(null), 3000);
+      return;
+    }
     const newEntry: HistoryEntry = {
       id: Date.now().toString(),
       timestamp: new Date().toISOString(),
@@ -307,30 +312,20 @@ function App() {
             </div>
             <div className="flex items-center gap-2.5">
               <DownloadAppButton variant="nav" />
-              {activeTab === 'Calculator' && (
-                <button
-                  onClick={() => {
-                    if (hasInput) {
-                      handleSaveToHistory();
-                    }
-                  }}
-                  disabled={!hasInput}
-                  title={hasInput ? "Save Calculation to History" : "Enter trade values (Quantity, Buy Price, Sell Price) to save"}
-                  className={`flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-full transition-all border shadow-xs ${
-                    hasInput
-                      ? 'bg-[#6b6d13]/10 dark:bg-[#d4cb00]/15 text-[#6b6d13] dark:text-[#d4cb00] border-[#6b6d13]/30 dark:border-[#d4cb00]/30 hover:bg-[#6b6d13]/20 cursor-pointer active:scale-95'
-                      : 'bg-surface-container-highest/60 dark:bg-[#252525] text-[#888] dark:text-[#666] border-outline-variant dark:border-[#3a3a3a] opacity-60 cursor-not-allowed'
-                  }`}
-                >
-                  <span className="material-symbols-outlined text-sm">{savedToast ? 'bookmark_added' : 'bookmark'}</span>
-                  <span>{savedToast ? 'Saved!' : 'Save Calculation'}</span>
-                </button>
-              )}
+              <button
+                type="button"
+                onClick={() => handleSaveToHistory()}
+                className="flex items-center gap-1.5 bg-[#6b6d13]/10 dark:bg-[#d4cb00]/15 text-[#6b6d13] dark:text-[#d4cb00] px-3 py-1 rounded-full text-xs font-bold hover:bg-[#6b6d13]/20 transition-all border border-[#6b6d13]/30 dark:border-[#d4cb00]/30 shadow-xs cursor-pointer active:scale-95"
+                title="Save Calculation to History"
+              >
+                <span className="material-symbols-outlined text-sm">{savedToast ? 'bookmark_added' : 'bookmark'}</span>
+                <span>{savedToast ? 'Saved!' : 'Save Calculation'}</span>
+              </button>
               {showRatesDate && (
                 <div 
                   onClick={() => setActiveTab('Settings')}
                   title="Click to change or hide in Settings"
-                  className="text-[12px] font-medium text-[#5f6368] dark:text-[#9e9e9e] flex items-center gap-1 cursor-pointer hover:text-primary dark:hover:text-[#d4cb00] transition-colors"
+                  className="text-[12px] font-medium text-[#5f6368] dark:text-[#9e9e9e] flex items-center gap-1 cursor-pointer hover:text-primary dark:hover:text-[#d4cb00] transition-colors ml-1"
                 >
                   <span className="material-symbols-outlined text-[14px]">history</span> Rates last updated: {ratesDate}
                 </div>
@@ -497,6 +492,14 @@ function App() {
         <div className="fixed bottom-20 lg:bottom-8 right-6 z-50 bg-[#6b6d13] dark:bg-[#d4cb00] text-on-primary dark:text-[#1a1a00] font-bold text-xs px-4 py-2.5 rounded-xl shadow-2xl flex items-center gap-2 animate-bounce">
           <span className="material-symbols-outlined text-base">bookmark_added</span>
           <span>Calculation saved to History!</span>
+        </div>
+      )}
+
+      {/* Save Alert Toast */}
+      {saveAlert && (
+        <div className="fixed bottom-20 lg:bottom-8 right-6 z-50 bg-amber-600 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-2xl flex items-center gap-2 animate-bounce">
+          <span className="material-symbols-outlined text-base">warning</span>
+          <span>{saveAlert}</span>
         </div>
       )}
 
