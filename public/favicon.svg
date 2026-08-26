@@ -1,0 +1,34 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="mtf-fav-bg" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stopColor="#6b6d13" />
+      <stop offset="100%" stopColor="#222302" />
+    </linearGradient>
+    <linearGradient id="mtf-fav-accent" x1="10" y1="52" x2="54" y2="10" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stopColor="#fdfd00" />
+      <stop offset="100%" stopColor="#d4cb00" />
+    </linearGradient>
+    <linearGradient id="mtf-fav-bar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stopColor="#ffffff" stopOpacity="0.9" />
+      <stop offset="100%" stopColor="#ffffff" stopOpacity="0.5" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background Squircle -->
+  <rect width="64" height="64" rx="16" fill="url(#mtf-fav-bg)" />
+  <rect width="60" height="60" x="2" y="2" rx="14" fill="none" stroke="#fdfd00" stroke-opacity="0.35" stroke-width="2" />
+
+  <!-- Growth Pillars / MTF Symbol -->
+  <!-- Left Bar -->
+  <rect x="13" y="28" width="7" height="22" rx="3.5" fill="url(#mtf-fav-bar)" />
+
+  <!-- Middle Bar -->
+  <rect x="28.5" y="19" width="7" height="31" rx="3.5" fill="url(#mtf-fav-accent)" />
+
+  <!-- Right Bar -->
+  <rect x="44" y="12" width="7" height="38" rx="3.5" fill="url(#mtf-fav-accent)" />
+
+  <!-- Trend Line / Margin Leverage Arrow -->
+  <path d="M16.5 28L32 16L47.5 10" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M41 10H47.5V16.5" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+</svg>
