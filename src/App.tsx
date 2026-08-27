@@ -390,8 +390,8 @@ function App() {
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 lg:ml-64 h-screen overflow-y-auto px-4 pt-16 pb-28 lg:pt-6 lg:px-gutter lg:pb-6">
-        <div className="max-w-container-max mx-auto h-full flex flex-col gap-gutter">
+      <main className="flex-1 lg:ml-64 h-screen overflow-y-auto px-4 pt-16 pb-52 lg:pt-6 lg:px-gutter lg:pb-6">
+        <div className="max-w-container-max mx-auto min-h-full flex flex-col gap-gutter">
 
           {/* Header */}
           <header className="justify-between items-end pb-4 border-b border-outline-variant dark:border-[#3a3a3a] hidden lg:flex">
@@ -606,14 +606,32 @@ function App() {
         </div>
       )}
 
+      {/* Floating Action Bar (Mobile only) - New & Save buttons */}
+      <div className="lg:hidden fixed bottom-[4.5rem] left-0 w-full z-40 flex justify-center gap-3 px-4 pb-2 pointer-events-none">
+        <button
+          onClick={handleNewCalculation}
+          className="pointer-events-auto flex items-center gap-1.5 bg-[#6b6d13] dark:bg-[#d4cb00] text-on-primary dark:text-[#1a1a00] px-4 py-2 rounded-full text-xs font-bold shadow-lg active:scale-95 cursor-pointer border border-[#6b6d13]/30"
+        >
+          <span className="material-symbols-outlined text-sm">add</span>
+          <span>New Calc</span>
+        </button>
+        <button
+          onClick={() => handleSaveToHistory()}
+          className="pointer-events-auto flex items-center gap-1.5 bg-[#f4f4ef] dark:bg-[#2a2a2a] text-[#6b6d13] dark:text-[#d4cb00] px-4 py-2 rounded-full text-xs font-bold shadow-lg active:scale-95 cursor-pointer border border-[#6b6d13]/30 dark:border-[#d4cb00]/30"
+        >
+          <span className="material-symbols-outlined text-sm">{savedToast ? 'bookmark_added' : 'bookmark'}</span>
+          <span>{savedToast ? 'Saved!' : 'Save'}</span>
+        </button>
+      </div>
+
       {/* Bottom Nav (Mobile only, hidden on lg) */}
-      <nav className="lg:hidden fixed bottom-0 left-0 w-full z-40 flex justify-between items-center h-16 bg-[#f4f4ef] dark:bg-[#1a1a1a] border-t border-outline-variant dark:border-[#3a3a3a] shadow-lg pb-safe px-1">
+      <nav className="lg:hidden fixed bottom-0 left-0 w-full z-40 flex justify-between items-center h-[4.5rem] bg-[#f4f4ef] dark:bg-[#1a1a1a] border-t border-outline-variant dark:border-[#3a3a3a] shadow-lg pb-safe px-1">
         {renderMobileNavButton('Calculator', 'Calc', 'calculate')}
         {renderMobileNavButton('Comparison', 'Compare', 'compare_arrows')}
-        {renderMobileNavButton('Break-Even', 'Targets', 'trending_up')}
+        {renderMobileNavButton('Break-Even', 'B.Even', 'trending_up')}
         {renderMobileNavButton('Simulator', 'Sim', 'query_stats')}
         {renderMobileNavButton('History', 'History', 'history')}
-        {renderMobileNavButton('Settings', 'Settings', 'settings')}
+        {renderMobileNavButton('Settings', 'More', 'settings')}
       </nav>
     </div>
   );
