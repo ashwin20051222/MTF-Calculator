@@ -1,18 +1,20 @@
 // Robust & safe Service Worker for MTF Pro PWA
 const CACHE_NAME = 'mtf-pro-v3';
 
+const BASE = self.location.pathname.replace('sw.js', '');
+
 // Assets to pre-cache on install for instant offline loading
 const PRECACHE_ASSETS = [
-  './',
-  './index.html',
-  './manifest.json',
-  './favicon.ico',
-  './favicon-32x32.png',
-  './favicon-16x16.png',
-  './apple-touch-icon.png',
-  './pwa-192x192.png',
-  './pwa-512x512.png',
-  './favicon.svg'
+  BASE,
+  BASE + 'index.html',
+  BASE + 'manifest.json',
+  BASE + 'favicon.ico',
+  BASE + 'favicon-32x32.png',
+  BASE + 'favicon-16x16.png',
+  BASE + 'apple-touch-icon.png',
+  BASE + 'pwa-192x192.png',
+  BASE + 'pwa-512x512.png',
+  BASE + 'favicon.svg'
 ];
 
 self.addEventListener('install', (event) => {
@@ -67,7 +69,7 @@ self.addEventListener('fetch', (event) => {
 
         // If navigation request (page reload / route), fallback to root index.html
         if (event.request.mode === 'navigate') {
-          const rootCached = await caches.match('./index.html') || await caches.match('./');
+          const rootCached = await caches.match(BASE + 'index.html') || await caches.match(BASE);
           if (rootCached) return rootCached;
         }
 
